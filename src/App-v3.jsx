@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLocalStorageState } from "./Hooks/useLocalStorageState.jsx";
 import {
-  NavBar,
-  Search,
-  NumResults,
-  MovieList,
-  MovieDetails,
-  WatchedSummary,
-  WatchedMoviesList,
-  Loader,
-  ErrorMessage,
-  Main,
   Box,
-} from "./components";
-import average from "./utils/average";
+  ErrorMessage,
+  Loader,
+  Main,
+  MovieDetails,
+  MovieList,
+  NavBar,
+  NumResults,
+  Search,
+  WatchedMoviesList,
+  WatchedSummary,
+} from "./utils/index.js";
 
 const KEY = "f84fc31d";
 
@@ -132,30 +131,3 @@ export default function App() {
     </>
   );
 }
-
-// `Loader`, `ErrorMessage`, `Main`, and `Box` moved to `src/components`.
-
-/*
-function WatchedBox() {
-  const [watched, setWatched] = useState(tempWatchedData);
-  const [isOpen2, setIsOpen2] = useState(true);
-
-  return (
-    <div className="box">
-      <button
-        className="btn-toggle"
-        onClick={() => setIsOpen2((open) => !open)}
-      >
-        {isOpen2 ? "–" : "+"}
-      </button>
-
-      {isOpen2 && (
-        <>
-          <WatchedSummary watched={watched} />
-          <WatchedMoviesList watched={watched} />
-        </>
-      )}
-    </div>
-  );
-}
-*/

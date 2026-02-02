@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import StarRating from "../StarRating";
-import average from "../utils/average";
+import StarRating from "./StarRating";
 export default function MovieDetails({
   selectedId,
   onCloseMovie,
@@ -40,7 +39,6 @@ export default function MovieDetails({
   } = movie;
 
   const isTop = Number(imdbRating) > 8;
-  // console.log(isTop);
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -104,55 +102,95 @@ export default function MovieDetails({
   );
 
   return (
-    <div className="details">
+    <div className="animate-in fade-in slide-in-from-right-4 flex w-full flex-col duration-500">
       {isLoading ? (
-        <p className="loader">Loading...</p>
+        <div className="flex h-64 items-center justify-center">
+          <p className="text-accent animate-pulse font-medium tracking-widest uppercase">
+            Loading Cinema...
+          </p>
+        </div>
       ) : (
         <>
-          <header>
-            <button className="btn-back" onClick={onCloseMovie}>
+          {/* Header: Fixed for 927px threshold */}
+          <header className="/* Below ~1024px (lg), it stays a column. Above, it becomes a row */ relative flex flex-col items-center gap-6 rounded-t-3xl border-b border-white/5 bg-white/[0.03] p-6 text-center lg:flex-row lg:items-end lg:gap-8 lg:p-8 lg:text-left">
+            <button
+              className="absolute top-4 left-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white shadow-xl backdrop-blur-md transition-all hover:bg-white/20 active:scale-90"
+              onClick={onCloseMovie}
+            >
               &larr;
             </button>
-            <img src={poster} alt={`Poster of ${movie} movie`} />
-            <div className="details-overview">
-              <h2>{title}</h2>
-              <p>
-                {released} &bull; {runtime}
+
+            {/* Poster: Scales down on mobile, fixed size on desktop */}
+            <img
+              src={poster}
+              alt={`Poster of ${title}`}
+              className="aspect-[2/3] w-40 shrink-0 rounded-xl object-cover shadow-2xl ring-1 ring-white/10 sm:w-44 lg:w-40"
+            />
+
+            <div className="flex w-full flex-col justify-end gap-3">
+              <h2 className="text-text text-2xl leading-tight font-bold sm:text-3xl">
+                {title}
+              </h2>
+              <div className="text-muted/60 flex flex-wrap justify-center gap-3 text-sm lg:justify-start">
+                <span>{released}</span>
+                <span>•</span>
+                <span>{runtime}</span>
+              </div>
+              <p className="text-accent/80 text-sm font-medium italic">
+                {genre}
               </p>
-              <p>{genre}</p>
-              <p>
-                <span>⭐️</span>
+              <p className="text-text/80 mx-auto flex w-fit items-center gap-2 rounded-full border border-white/5 bg-white/5 px-3 py-1 text-sm lg:mx-0">
+                <span className="text-yellow-500">⭐️</span>
                 {imdbRating} IMDb rating
               </p>
             </div>
           </header>
 
-          <section>
-            <div className="rating">
+          <section className="flex flex-col gap-8 p-6 lg:p-8">
+            <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/5 bg-white/5 p-6 shadow-inner">
               {!isWatched ? (
-                <>
+                <div className="flex w-full flex-col items-center overflow-hidden">
                   <StarRating
                     maxRating={10}
                     size={24}
                     onSetRating={setUserRating}
                   />
                   {userRating > 0 && (
-                    <button className="btn-add" onClick={handleAdd}>
-                      + Add to list
+                    <button
+                      className="mt-4 w-full cursor-pointer rounded-2xl border border-white/20 bg-white px-6 py-4 text-xs font-bold tracking-[0.15em] text-black uppercase transition-all duration-300 ease-out hover:bg-white/90 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] active:scale-[0.98]"
+                      onClick={handleAdd}
+                    >
+                      Add to list
                     </button>
                   )}
-                </>
+                </div>
               ) : (
-                <p>
-                  You rated with movie {watchedUserRating} <span>⭐️</span>
+                <p className="text-muted/70 flex items-center gap-2 font-medium">
+                  You rated this movie {watchedUserRating}{" "}
+                  <span className="text-yellow-500">⭐️</span>
                 </p>
               )}
             </div>
-            <p>
-              <em>{plot}</em>
-            </p>
-            <p>Starring {actors}</p>
-            <p>Directed by {director}</p>
+
+            <div className="space-y-6 leading-relaxed">
+              <p className="text-text/90 font-serif text-lg leading-relaxed italic">
+                "{plot}"
+              </p>
+              <div className="grid gap-2 text-sm">
+                <p>
+                  <span className="text-muted/50 mr-2 font-bold tracking-tighter uppercase">
+                    Starring:
+                  </span>{" "}
+                  {actors}
+                </p>
+                <p>
+                  <span className="text-muted/50 mr-2 font-bold tracking-tighter uppercase">
+                    Directed by:
+                  </span>{" "}
+                  {director}
+                </p>
+              </div>
+            </div>
           </section>
         </>
       )}

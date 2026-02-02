@@ -15,7 +15,7 @@ export function Logo() {
         🍿
       </span>
       <h1 className="text-2xl font-bold tracking-tight text-white">
-        use<span className="text-accent">Popcorn</span>
+        Movie<span className="text-accent">Rate</span>
       </h1>
     </div>
   );
