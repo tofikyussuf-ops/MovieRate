@@ -14,8 +14,7 @@ import {
   WatchedSummary,
 } from "./utils/index.js";
 
-const KEY = "f84fc31d";
-
+const KEY = import.meta.env.VITE_OMDB_API_KEY;
 export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
@@ -53,7 +52,7 @@ export default function App() {
           setError("");
 
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            `https://www.omdbapi.com/?apikey=${KEY}&s=${query}`, // Must be https
             { signal: controller.signal },
           );
 
